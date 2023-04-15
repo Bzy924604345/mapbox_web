@@ -16,96 +16,10 @@
             <div id='pd'><p>Hover over a state!</p></div>
         </div>
         <div class='map-overlay' id='legend'></div>
+        <div class='map-overlay' id="coordinates"></div>
     </div>
 
-    <!--地图填充盒子-->
-    <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvMTgyIiwiYSI6ImNsZXBlcXdpczBicGEzcW83aWwzNjBpd2kifQ.6ziaeLPI7eab1oygQc7oRg';
-
-        var map = new mapboxgl.Map({
-            container: 'map',
-            projection: 'mercator',
-            style: 'mapbox://styles/bao182/clgg5pq79000k01lnpnysz4i8', // replace with your own Mapbox style URL
-            center: [110,30.9], // replace with the coordinates of the center point of your map
-            zoom: 2.9 // replace with the initial zoom level of your map
-        });
-
-        // wait for map to load before adjusting it
-        map.on('load', () => {
-            // make a pointer cursor
-            map.getCanvas().style.cursor = 'default';
-            
-            // set map bounds to the continental US
-            // map.fitBounds([
-            // [-133.2421875, 16.972741],
-            // [-47.63671875, 52.696361]
-            // ]);
-    
-            // define layer names
-            const layers = [
-            '18970-23958',
-            '13982-18970',
-            '8994-13982',
-            '4005-8994',
-            ];
-            const colors = [
-            '#d7191c',
-            '#ffffbf',
-            '#abd9e9',
-            '#2c7bb6',
-            ];
-            
-            // create legend
-            const legend = document.getElementById('legend');
-            
-            layers.forEach((layer, i) => {
-            const color = colors[i];
-            const item = document.createElement('div');
-            const key = document.createElement('span');
-            key.className = 'legend-key';
-            key.style.backgroundColor = color;
-            
-            const value = document.createElement('span');
-            value.innerHTML = `${layer}`;
-            item.appendChild(key);
-            item.appendChild(value);
-            legend.appendChild(item);
-            });
-            
-            // change info window on hover
-            map.on('mousemove', (event) => {
-            const states = map.queryRenderedFeatures(event.point, {
-            layers: ['statedata']
-            });
-            document.getElementById('pd').innerHTML = states.length
-            ? `<h3>${states[0].properties.name}</h3><p><strong><em>${states[0].properties.density}</strong> people per square mile</em></p>`
-            : `<p>Hover over a state!</p>`;
-            });
-        });
-
-        //作用函数
-        function zoomtoJS() {
-			map.setCenter([119.49872,32.97117]);
-            map.setZoom(6.5);
-		}
-        function zoomtoChina(){
-            map.setCenter([110,30.9]);
-            map.setZoom(2.9);
-        }
-        function StarrySky(){
-            map.setStyle('mapbox://styles/bao182/clezql8zb000q01oblq6b2egr');
-        }
-        function StarrySkyEX(){
-            map.setStyle('mapbox://styles/bao182/clgg44whl002q01pkai118y1f');
-        }
-        function GrandCanal(){
-            map.setStyle('mapbox://styles/bao182/clfne770n000j01mchycyi4eu');
-        }
-        function ChoroplethMap(){
-            map.setStyle('mapbox://styles/bao182/clgg5pq79000k01lnpnysz4i8');
-        }
-
-    </script>
+    <script src="service.js"></script>
 
     <!--工具盒子-->
     <div id='tools'>
